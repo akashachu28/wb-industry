@@ -1,5 +1,6 @@
 "use client"
 import React from 'react'
+import { useRouter } from 'next/navigation'
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 
 const STAT_CARDS = [
@@ -140,52 +141,58 @@ const CustomLabel = ({ cx, cy }: { cx: number; cy: number }) => (
   </text>
 )
 const page = () => {
+  const router = useRouter()
+  
   return (
-    <>
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-     
-
-      <main className="flex-1 overflow-y-auto p-8">
+    <main className="flex-1 overflow-y-auto p-4">
+      <div className="space-y-4">
         {/* Page header */}
-        <div className="flex items-start justify-between mb-6">
-          <div>
-            <h2 className="text-xl font-semibold text-[#1a1f36]">Government Command Center</h2>
-            {/* <p className="text-sm text-[#6b7280] mt-0.5">Overview of ongoing and completed projects across West Bengal.</p> */}
-          </div>
-          <button className="flex items-center gap-2 border border-[#e8eaef] bg-white rounded-lg px-3.5 py-2 text-sm text-[#1a1f36] hover:bg-gray-50 transition-colors">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-            <span>Apr 2024 – Mar 2025</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-        </div>
-
-        {/* Stat cards */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
-          {STAT_CARDS.map((card) => (
-            <div key={card.label} className="rounded-xl border p-5" style={{ background: card.cardBg, borderColor: card.border }}>
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: card.iconBg }}>
-                {card.icon}
-              </div>
-              <p className="text-xs text-[#6b7280] mb-1">{card.label}</p>
-              <p className="text-2xl font-bold text-[#1a1f36] mb-1">{card.value}</p>
-              <p className={`text-xs font-medium flex items-center gap-1 ${card.positive ? 'text-[#16a34a]' : 'text-[#dc2626]'}`}>
-                {card.positive ? (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="18 15 12 9 6 15"/></svg>
-                ) : (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-                )}
-                {card.trend} vs last year
-              </p>
+        <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-semibold text-[#1a1f36]">Government Command Center</h2>
+              <p className="text-sm text-[#6b7280] mt-0.5">Overview of ongoing and completed projects across West Bengal.</p>
             </div>
-          ))}
+            <button className="flex items-center gap-2 border border-[#e8eaef] bg-white rounded-lg px-3.5 py-2 text-sm text-[#1a1f36] hover:bg-gray-50 transition-colors">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              <span>Apr 2024 – Mar 2025</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          </div>
+
+          {/* Stat cards */}
+          <div className="grid grid-cols-4 gap-4">
+            {STAT_CARDS.map((card) => (
+              <div 
+                key={card.label} 
+                className={`rounded-xl border p-5 ${card.label === 'At Risk' ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
+                style={{ background: card.cardBg, borderColor: card.border }}
+                onClick={() => card.label === 'At Risk' && router.push('/command-center/risks-page')}
+              >
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: card.iconBg }}>
+                  {card.icon}
+                </div>
+                <p className="text-xs text-[#6b7280] mb-1">{card.label}</p>
+                <p className="text-2xl font-bold text-[#1a1f36] mb-1">{card.value}</p>
+                <p className={`text-xs font-medium flex items-center gap-1 ${card.positive ? 'text-[#16a34a]' : 'text-[#dc2626]'}`}>
+                  {card.positive ? (
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+                  ) : (
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                  )}
+                  {card.trend} vs last year
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Bottom section */}
-        <div className="grid grid-cols-[1fr_320px] gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4">
           {/* Map */}
-          <div className="bg-white rounded-xl border border-[#e8eaef] p-5">
+          <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
             <h3 className="text-sm font-semibold text-[#1a1f36] mb-4">Project Locations</h3>
             {/* Legend */}
             <div className="flex gap-5 mb-4">
@@ -313,9 +320,8 @@ const page = () => {
             </div>
           </div>
         </div>
-      </main>
-    </div>
-    </>
+      </div>
+    </main>
   )
 }
 

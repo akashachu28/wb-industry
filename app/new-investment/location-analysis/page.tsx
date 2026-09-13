@@ -87,54 +87,11 @@ function LocationAnalysisContent() {
   }
 
   return (
-    <main className="flex-1 overflow-y-auto p-4">
-      <div className="flex gap-4 h-full flex-col">
+    <main className="flex-1 overflow-y-auto p-2">
+      <div className="flex gap-2 h-full flex-col">
         {/* Top Section */}
-        <div className="flex gap-4">
-          {/* Left Sidebar */}
-          <div className="w-[320px] shrink-0 space-y-4">
-            {/* Image Card */}
-            <div className="bg-white rounded-xl border border-[#e8eaef] overflow-hidden">
-              <div className="relative h-60 bg-gradient-to-br from-gray-100 to-gray-200">
-                <img
-                  src="https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=400&h=300&fit=crop"
-                  alt={location.park_name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-5">
-                <h3 className="text-base font-semibold text-[#1a1f36]">{location.park_name}</h3>
-                <p className="text-sm text-[#6b7280] mt-1">{location.district} District</p>
-              </div>
-            </div>
-
-            {/* Stats Cards */}
-            <div className="bg-white rounded-xl border border-[#e8eaef] p-5 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-[#eaf6fd] flex items-center justify-center shrink-0">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#29ABE2" strokeWidth="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-xl font-bold text-[#1a1f36]">{location.total_area_acres} acres</div>
-                  <div className="text-xs text-[#6b7280]">Total Area</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-[#d1fae5] flex items-center justify-center shrink-0">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2">
-                    <path d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-xl font-bold text-[#16a34a]">{location.available_area_acres} acres</div>
-                  <div className="text-xs text-[#6b7280]">Available</div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="flex gap-2">
+          
 
           {/* Main Content */}
           <div className="flex-1 min-w-0 bg-white rounded-xl border border-[#e8eaef] p-7 flex flex-col">
@@ -289,9 +246,52 @@ function LocationAnalysisContent() {
               </table>
             </div>
           </div>
-        </div>
 
-        {/* Why Section - Full Width at Bottom */}
+          {/* Right Sidebar */}
+          <div className="w-[320px] shrink-0 space-y-2">
+            {/* Image Card */}
+            <div className="bg-white rounded-xl border border-[#e8eaef] overflow-hidden">
+              <div className="relative h-60 bg-gradient-to-br from-gray-100 to-gray-200">
+                <img
+                  src="https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=400&h=300&fit=crop"
+                  alt={location.park_name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-5">
+                <h3 className="text-base font-semibold text-[#1a1f36]">{location.park_name}</h3>
+                <p className="text-sm text-[#6b7280] mt-1">{location.district} District</p>
+              </div>
+            </div>
+
+            {/* Stats Cards */}
+            <div className="bg-white rounded-xl border border-[#e8eaef] p-5 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-[#eaf6fd] flex items-center justify-center shrink-0">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#29ABE2" strokeWidth="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-xl font-bold text-[#1a1f36]">{location.total_area_acres} acres</div>
+                  <div className="text-xs text-[#6b7280]">Total Area</div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-[#d1fae5] flex items-center justify-center shrink-0">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2">
+                    <path d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-xl font-bold text-[#16a34a]">{location.available_area_acres} acres</div>
+                  <div className="text-xs text-[#6b7280]">Available</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Why Section - Full Width at Bottom */}
         <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
           <div className="flex items-start gap-4">
             <div className="w-11 h-11 rounded-xl bg-[#eaf6fd] flex items-center justify-center shrink-0">
@@ -310,6 +310,11 @@ function LocationAnalysisContent() {
             </div>
           </div>
         </div>
+
+          </div>
+        </div>
+
+        
       </div>
     </main>
   )

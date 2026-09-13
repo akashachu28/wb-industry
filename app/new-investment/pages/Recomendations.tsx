@@ -1,6 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import wbMap from '../../../public/images/wb-map.png'
 
 const LOCATIONS = [
   {
@@ -29,8 +30,8 @@ export default function Recomendations() {
   const router = useRouter()
 
   return (
-    <main className="flex-1 overflow-y-auto p-4">
-      <div className="flex gap-4 h-full">
+    <main className="flex-1 overflow-y-auto p-2">
+      <div className="flex gap-2 h-full">
         {/* Map Section */}
         <div className="flex-1 min-w-0 bg-white rounded-xl border border-[#e8eaef] p-7 flex flex-col">
           {/* Header with Back Button */}
@@ -55,11 +56,12 @@ export default function Recomendations() {
           {/* Map Container */}
           <div className="relative flex-1 overflow-hidden rounded-xl">
             <Image
-              src="/images/wb-map.png"
+              src="/images/wb-map.png?v=2"
               alt="West Bengal Map"
               fill
               className="object-cover"
               priority
+              unoptimized
             />
             
             {/* Siliguri Label */}

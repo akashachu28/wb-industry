@@ -1,44 +1,6 @@
 "use client"
 import { useState } from 'react'
-
-const QUICK_ACTIONS = [
-  {
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <circle cx="11" cy="11" r="8" />
-        <path d="m21 21-4.35-4.35" />
-      </svg>
-    ),
-    label: 'Search'
-  },
-  {
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
-    ),
-    label: 'Reasoning'
-  },
-  {
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-        <circle cx="8.5" cy="8.5" r="1.5" />
-        <path d="m21 15-5-5L5 21" />
-      </svg>
-    ),
-    label: 'Create Image'
-  },
-  {
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-      </svg>
-    ),
-    label: 'Deep Research'
-  }
-]
+import { sendChatMessage } from '@/lib/api/chat'
 
 const CHAT_HISTORY = [
   { id: 1, title: 'Investment Opportunities', timestamp: 'Today' },
@@ -48,24 +10,48 @@ const CHAT_HISTORY = [
   { id: 5, title: 'Infrastructure Requirements', timestamp: 'Last week' },
 ]
 
+// Loading dots component
+const LoadingDots = () => (
+  <div className="flex gap-1">
+    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+  </div>
+)
+
 export default function ChatbotPage() {
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([])
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [activeChat, setActiveChat] = useState<number | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSend = () => {
-    if (message.trim()) {
-      setMessages([...messages, { role: 'user', content: message }])
+  const handleSend = async () => {
+    if (message.trim() && !isLoading) {
+      const userMessage = message.trim()
+      setMessages(prev => [...prev, { role: 'user', content: userMessage }])
       setMessage('')
+      setIsLoading(true)
       
-      // Simulate AI response
-      setTimeout(() => {
+      try {
+        // Call the API
+        const response = await sendChatMessage(userMessage)
+        
+        // Add AI response to messages
         setMessages(prev => [...prev, { 
           role: 'assistant', 
-          content: 'I can help you with investment inquiries, project information, and administrative assistance for West Bengal industrial development.'
+          content: response.response || 'Sorry, I could not process your request.'
         }])
-      }, 1000)
+      } catch (error) {
+        console.error('Error sending message:', error)
+        // Add error message
+        setMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: 'Sorry, I encountered an error while processing your request. Please try again.'
+        }])
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
@@ -179,8 +165,6 @@ export default function ChatbotPage() {
 
       {/* Main Content */}
       <div className={`flex-1 flex flex-col transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-0'}`}>
-
-
         {/* Chat Area */}
         <div className="flex-1 overflow-y-auto p-4 md:p-8 flex flex-col">
           <div className="flex-1">
@@ -229,6 +213,20 @@ export default function ChatbotPage() {
                     )}
                   </div>
                 ))}
+                
+                {/* Loading indicator */}
+                {isLoading && (
+                  <div className="flex gap-4 justify-start">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shrink-0">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                      </svg>
+                    </div>
+                    <div className="rounded-2xl px-4 py-3 bg-white border border-gray-200">
+                      <LoadingDots />
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -252,33 +250,25 @@ export default function ChatbotPage() {
                   type="text"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                  onKeyDown={(e) => e.key === 'Enter' && !isLoading && handleSend()}
                   placeholder="Initiate a query or send a command to the AI..."
                   className="flex-1 px-4 py-2 text-sm text-gray-900 placeholder-gray-400 bg-transparent border-none outline-none"
+                  disabled={isLoading}
                 />
                 <button
                   onClick={handleSend}
-                  disabled={!message.trim()}
+                  disabled={!message.trim() || isLoading}
                   className="shrink-0 w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 disabled:cursor-not-allowed text-white flex items-center justify-center transition-colors"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                  </svg>
+                  {isLoading ? (
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                    </svg>
+                  )}
                 </button>
               </div>
-
-              {/* Quick Actions */}
-              {/* <div className="flex items-center gap-2 px-4 pb-3 border-t border-gray-100 pt-3">
-                {QUICK_ACTIONS.map((action) => (
-                  <button
-                    key={action.label}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-gray-600 text-xs font-medium transition-colors"
-                  >
-                    {action.icon}
-                    {action.label}
-                  </button>
-                ))}
-              </div> */}
             </div>
 
             <p className="text-center text-xs text-gray-500 mt-4">
