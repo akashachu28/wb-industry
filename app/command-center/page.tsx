@@ -272,7 +272,7 @@ const page = () => {
                       </Pie>
                       <Tooltip
                         contentStyle={{ fontSize: 12, border: '1px solid #e8eaef', borderRadius: 8 }}
-                        formatter={(value: number | undefined) => [value ?? 0, '']}
+                        formatter={(value) => [value ?? 0, '']}
                       />
                     </PieChart>
                   </ResponsiveContainer>
