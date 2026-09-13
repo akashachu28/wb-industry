@@ -133,6 +133,12 @@ export default function Recomendations() {
           {LOCATIONS.map((location) => (
             <article 
               key={location.name} 
+              onClick={() => {
+                const locationId = location.name.toLowerCase().includes('kharagpur') ? 'kharagpur' 
+                  : location.name.toLowerCase().includes('uluberia') ? 'uluberia' 
+                  : 'falta'
+                router.push(`/new-investment/location-analysis?location=${locationId}`)
+              }}
               className="rounded-lg border border-[#e8eaef] bg-white p-4 hover:shadow-sm transition-shadow cursor-pointer"
             >
               <div className="flex items-start gap-3">
