@@ -140,7 +140,7 @@ const CustomLabel = ({ cx, cy }: { cx: number; cy: number }) => (
     <tspan x={cx} dy="20" fontSize="11" fill="#9ca3af">Total</tspan>
   </text>
 )
-const page = () => {
+const Page = () => {
   const router = useRouter()
   
   return (
@@ -325,4 +325,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
