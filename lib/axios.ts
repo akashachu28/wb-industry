@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT || 'http://106.51.226.42:4561',
+  // Use local API proxy to bypass CORS
+  baseURL: '/api',
   timeout: 60000, // 60 seconds timeout for chat responses
   headers: {
     'accept': 'application/json',
