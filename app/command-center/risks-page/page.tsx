@@ -5,10 +5,33 @@ import { useRouter } from 'next/navigation'
 const TABS = ['By Bottleneck Type', 'By Department', 'By District', 'By Sector']
 
 const BOTTLENECK_DATA = [
-  { name: 'Land allocation', count: 11, color: '#ef4444' },
-  { name: 'Environmental clearance', count: 7, color: '#f97316' },
-  { name: 'Power connection', count: 5, color: '#fbbf24' },
-  { name: 'Inter-department dependency', count: 4, color: '#fde68a' },
+  { name: 'Land allocation', count: 11, color: '#ef4444', description: '' },
+  { name: 'Environmental clearance', count: 7, color: '#f97316', description: '' },
+  { name: 'Power connection', count: 5, color: '#fbbf24', description: '' },
+  { name: 'Inter-department dependency', count: 4, color: '#fde68a', description: '' },
+]
+
+const DEPARTMENT_DATA = [
+  { name: 'WBIDC/WBIIDC', count: 15, color: '#ef4444', description: 'Land & Infrastructure' },
+  { name: 'WBPCB', count: 9, color: '#f97316', description: 'Environment' },
+  { name: 'Power Department', count: 6, color: '#fbbf24', description: 'Electricity' },
+  { name: 'Directorate of Factories', count: 4, color: '#fde68a', description: 'Factory Licensing' },
+]
+
+const DISTRICT_DATA = [
+  { name: 'Paschim Medinipur', count: 8, color: '#ef4444', description: 'Kharagpur, Vidyasagar areas' },
+  { name: 'Howrah', count: 6, color: '#f97316', description: 'Uluberia area' },
+  { name: 'South 24 Parganas', count: 5, color: '#fbbf24', description: 'Falta area' },
+  { name: 'Paschim Bardhaman', count: 4, color: '#fde68a', description: 'Durgapur, Panagarh areas' },
+  { name: 'Nadia', count: 4, color: '#a3e635', description: 'Kalyani area' },
+]
+
+const SECTOR_DATA = [
+  { name: 'Electronics', count: 9, color: '#ef4444', description: 'Semiconductors, Components' },
+  { name: 'Engineering', count: 7, color: '#f97316', description: 'Heavy & Light Engineering' },
+  { name: 'EV Components', count: 5, color: '#fbbf24', description: 'Electric Vehicles' },
+  { name: 'Food Processing', count: 3, color: '#fde68a', description: 'Agro Processing' },
+  { name: 'Chemicals', count: 3, color: '#a3e635', description: 'Specialty Chemicals' },
 ]
 
 const AT_RISK_PROJECTS = [
@@ -63,7 +86,62 @@ export default function RisksPage() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('By Bottleneck Type')
 
-  const maxCount = Math.max(...BOTTLENECK_DATA.map(b => b.count))
+  // Get current data based on active tab
+  const getCurrentData = () => {
+    switch (activeTab) {
+      case 'By Bottleneck Type':
+        return BOTTLENECK_DATA
+      case 'By Department':
+        return DEPARTMENT_DATA
+      case 'By District':
+        return DISTRICT_DATA
+      case 'By Sector':
+        return SECTOR_DATA
+      default:
+        return BOTTLENECK_DATA
+    }
+  }
+
+  const currentData = getCurrentData()
+
+  // Get AI insight based on active tab
+  const getAIInsight = () => {
+    switch (activeTab) {
+      case 'By Bottleneck Type':
+        return {
+          title: 'AI Insight',
+          description: 'Land allocation is currently the largest source of industrial project delay in West Bengal.',
+          highlight: '11 projects representing ₹4,280 Cr of proposed investment are affected.'
+        }
+      case 'By Department':
+        return {
+          title: 'AI Insight',
+          description: 'WBIDC/WBIIDC has the highest number of pending approvals, primarily related to land allocation and infrastructure.',
+          highlight: '15 projects worth ₹5,600 Cr awaiting action from WBIDC/WBIIDC.'
+        }
+      case 'By District':
+        return {
+          title: 'AI Insight',
+          description: 'Paschim Medinipur has the highest concentration of delayed projects, particularly in the electronics and engineering sectors.',
+          highlight: '8 projects with combined investment of ₹2,840 Cr are at risk in this district.'
+        }
+      case 'By Sector':
+        return {
+          title: 'AI Insight',
+          description: 'Electronics sector faces the most delays, primarily due to land allocation and environmental clearance bottlenecks.',
+          highlight: '9 electronics projects representing ₹3,200 Cr investment need urgent intervention.'
+        }
+      default:
+        return {
+          title: 'AI Insight',
+          description: 'Analysis in progress.',
+          highlight: ''
+        }
+    }
+  }
+
+  const aiInsight = getAIInsight()
+  const maxCount = Math.max(...currentData.map(b => b.count))
 
   return (
     <main className="flex-1 overflow-y-auto p-2">
@@ -73,7 +151,7 @@ export default function RisksPage() {
           <div className="flex items-start gap-4 mb-6">
             <button
               onClick={() => router.push('/command-center')}
-              className="w-11 h-11 rounded-xl bg-[#eaf6fd] flex items-center justify-center flex-shrink-0 hover:bg-[#d5eefb] transition-colors"
+              className="w-11 h-11 rounded-xl bg-[#eaf6fd] flex items-center justify-center shrink-0 hover:bg-[#d5eefb] transition-colors"
               aria-label="Back to command center"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#29ABE2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -108,22 +186,33 @@ export default function RisksPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-2">
           {/* Bottleneck Chart */}
           <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
+            <h2 className="text-sm font-semibold text-[#1a1f36] mb-5">
+              {activeTab === 'By Bottleneck Type' && 'Bottleneck Analysis'}
+              {activeTab === 'By Department' && 'Department-wise Delays'}
+              {activeTab === 'By District' && 'District-wise Distribution'}
+              {activeTab === 'By Sector' && 'Sector-wise Delays'}
+            </h2>
             <div className="space-y-5">
-              {BOTTLENECK_DATA.map((bottleneck) => (
-                <div key={bottleneck.name}>
+              {currentData.map((item) => (
+                <div key={item.name}>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-[#6b7280]">{bottleneck.name}</span>
-                    <span className="text-sm font-semibold text-[#1a1f36]">{bottleneck.count}</span>
+                    <div>
+                      <span className="text-sm font-medium text-[#1a1f36]">{item.name}</span>
+                      {item.description && (
+                        <span className="text-xs text-[#9ca3af] ml-2">({item.description})</span>
+                      )}
+                    </div>
+                    <span className="text-sm font-semibold text-[#1a1f36]">{item.count}</span>
                   </div>
                   <div className="h-8 bg-[#f0f2f7] rounded-lg overflow-hidden">
                     <div
                       className="h-full rounded-lg transition-all flex items-center justify-end pr-3"
                       style={{ 
-                        width: `${(bottleneck.count / maxCount) * 100}%`,
-                        backgroundColor: bottleneck.color
+                        width: `${(item.count / maxCount) * 100}%`,
+                        backgroundColor: item.color
                       }}
                     >
-                      <span className="text-sm font-bold text-white">{bottleneck.count}</span>
+                      <span className="text-sm font-bold text-white">{item.count}</span>
                     </div>
                   </div>
                 </div>
@@ -141,13 +230,15 @@ export default function RisksPage() {
                 </svg>
               </div>
               <div className="flex-1">
-                <h3 className="text-sm font-semibold text-[#1e40af] mb-2">AI Insight</h3>
+                <h3 className="text-sm font-semibold text-[#1e40af] mb-2">{aiInsight.title}</h3>
                 <p className="text-sm text-[#6b7280] leading-relaxed mb-4">
-                  Land allocation is currently the largest source of industrial project delay in West Bengal.
+                  {aiInsight.description}
                 </p>
-                <p className="text-sm text-[#1e40af] font-semibold">
-                  11 projects representing ₹4,280 Cr of proposed investment are affected.
-                </p>
+                {aiInsight.highlight && (
+                  <p className="text-sm text-[#1e40af] font-semibold">
+                    {aiInsight.highlight}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -170,7 +261,7 @@ export default function RisksPage() {
                 </tr>
               </thead>
               <tbody>
-                {AT_RISK_PROJECTS.map((project, index) => (
+                {AT_RISK_PROJECTS.map((project) => (
                   <tr 
                     key={project.id} 
                     className="border-b border-[#e8eaef] hover:bg-gray-50 cursor-pointer transition-colors"

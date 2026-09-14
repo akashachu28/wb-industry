@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react'
-import { sendChatMessage } from '@/lib/api/chat'
+import { sendChatMessage, ChatMessage } from '@/lib/api/chat'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -23,34 +23,44 @@ const LoadingDots = () => (
 
 export default function ChatbotPage() {
   const [message, setMessage] = useState('')
-  const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([])
+  const [messages, setMessages] = useState<ChatMessage[]>([])
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [activeChat, setActiveChat] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [conversationId, setConversationId] = useState<string>(crypto.randomUUID())
 
   const handleSend = async () => {
     if (message.trim() && !isLoading) {
       const userMessage = message.trim()
-      setMessages(prev => [...prev, { role: 'user', content: userMessage }])
+      const newUserMessage: ChatMessage = { role: 'user', content: userMessage }
+      
+      // Add user message to the UI
+      setMessages(prev => [...prev, newUserMessage])
       setMessage('')
       setIsLoading(true)
       
       try {
-        // Call the API
-        const response = await sendChatMessage(userMessage)
+        // Call the API with conversation history
+        const response = await sendChatMessage(
+          userMessage,
+          conversationId,
+          messages // Send previous messages as history
+        )
         
         // Add AI response to messages
-        setMessages(prev => [...prev, { 
-          role: 'assistant', 
+        const assistantMessage: ChatMessage = {
+          role: 'assistant',
           content: response.response || 'Sorry, I could not process your request.'
-        }])
+        }
+        setMessages(prev => [...prev, assistantMessage])
       } catch (error) {
         console.error('Error sending message:', error)
         // Add error message
-        setMessages(prev => [...prev, { 
-          role: 'assistant', 
+        const errorMessage: ChatMessage = {
+          role: 'assistant',
           content: 'Sorry, I encountered an error while processing your request. Please try again.'
-        }])
+        }
+        setMessages(prev => [...prev, errorMessage])
       } finally {
         setIsLoading(false)
       }
@@ -60,6 +70,8 @@ export default function ChatbotPage() {
   const handleNewChat = () => {
     setMessages([])
     setActiveChat(null)
+    // Generate new conversation ID for new chat
+    setConversationId(crypto.randomUUID())
   }
 
   return (
