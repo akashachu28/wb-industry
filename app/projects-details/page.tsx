@@ -31,8 +31,8 @@ export default function ProjectDetailsPage() {
   const [activeTab, setActiveTab] = useState('Overview')
 
   return (
-    <main className="flex-1 overflow-y-auto p-4">
-      <div className="space-y-4">
+    <main className="flex-1 overflow-y-auto p-2">
+      <div className="space-y-2">
         {/* Header Card */}
         <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
           <div className="mb-6">

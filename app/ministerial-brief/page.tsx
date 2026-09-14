@@ -20,7 +20,7 @@ const BRIEF_DATA = {
 }
 
 export default function MinisterialBriefPage() {
-  const [showPDF, setShowPDF] = useState(true)
+  const [showPDF, setShowPDF] = useState(false) // Set Summary View as default
 
   const handleDownload = () => {
     const link = document.createElement('a')
@@ -85,24 +85,35 @@ export default function MinisterialBriefPage() {
             </div>
           </div>
 
-          {/* Toggle View */}
-          <div className="flex gap-2">
+          {/* Toggle View - Sliding Animation */}
+          <div className="relative inline-flex bg-gray-100 rounded-xl p-1">
+            {/* Sliding background indicator */}
+            <div
+              className={`absolute top-1 bottom-1 rounded-lg bg-blue-600 transition-all duration-300 ease-in-out ${
+                !showPDF ? 'left-1 right-1/2' : 'left-1/2 right-1'
+              }`}
+              style={{
+                boxShadow: '0 2px 4px rgba(59, 130, 246, 0.2)'
+              }}
+            />
+            
+            {/* Buttons */}
             <button
               onClick={() => setShowPDF(false)}
-              className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+              className={`relative z-10 px-8 py-2.5 rounded-lg text-sm font-medium transition-colors duration-300 ${
                 !showPDF
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-600 hover:bg-gray-50 border border-[#e8eaef]'
+                  ? 'text-white'
+                  : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               Summary View
             </button>
             <button
               onClick={() => setShowPDF(true)}
-              className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+              className={`relative z-10 px-8 py-2.5 rounded-lg text-sm font-medium transition-colors duration-300 ${
                 showPDF
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-600 hover:bg-gray-50 border border-[#e8eaef]'
+                  ? 'text-white'
+                  : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               PDF View
