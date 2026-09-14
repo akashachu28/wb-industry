@@ -144,8 +144,8 @@ const Page = () => {
   const router = useRouter()
   
   return (
-    <main className="flex-1 overflow-y-auto p-4">
-      <div className="space-y-4">
+    <main className="flex-1 overflow-y-auto p-2">
+      <div className="space-y-2">
         {/* Page header */}
         <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
           <div className="flex items-start justify-between mb-6">
@@ -190,7 +190,7 @@ const Page = () => {
         </div>
 
         {/* Bottom section */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-2">
           {/* Map */}
           <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
             <h3 className="text-sm font-semibold text-[#1a1f36] mb-4">Project Locations</h3>
@@ -254,7 +254,7 @@ const Page = () => {
           </div>
 
           {/* Right column */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             {/* Donut chart */}
             <div className="bg-white rounded-xl border border-[#e8eaef] p-5">
               <h3 className="text-sm font-semibold text-[#1a1f36] mb-4">Projects by Status</h3>

@@ -66,8 +66,8 @@ export default function RisksPage() {
   const maxCount = Math.max(...BOTTLENECK_DATA.map(b => b.count))
 
   return (
-    <main className="flex-1 overflow-y-auto p-4">
-      <div className="space-y-4">
+    <main className="flex-1 overflow-y-auto p-2">
+      <div className="space-y-2">
         {/* Header Card */}
         <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
           <div className="flex items-start gap-4 mb-6">
@@ -105,7 +105,7 @@ export default function RisksPage() {
         </div>
 
         {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-2">
           {/* Bottleneck Chart */}
           <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
             <div className="space-y-5">

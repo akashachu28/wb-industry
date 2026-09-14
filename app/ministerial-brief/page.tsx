@@ -44,8 +44,8 @@ export default function MinisterialBriefPage() {
   }
 
   return (
-    <main className="flex-1 overflow-y-auto p-4">
-      <div className="space-y-4">
+    <main className="flex-1 overflow-y-auto p-2">
+      <div className="space-y-2">
         {/* Header */}
         <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
           <div className="flex items-start justify-between mb-6">
