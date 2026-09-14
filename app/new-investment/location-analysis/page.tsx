@@ -7,7 +7,7 @@ function LocationAnalysisContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const locationId = searchParams.get('location') || 'kharagpur'
-  const location = LOCATION_DATA[locationId]
+  const location = LOCATION_DATA[locationId as keyof typeof LOCATION_DATA]
   const [activeTab, setActiveTab] = useState('investment')
 
   if (!location) {

@@ -1,6 +1,8 @@
 "use client"
 import { useState } from 'react'
 import { sendChatMessage } from '@/lib/api/chat'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 const CHAT_HISTORY = [
   { id: 1, title: 'Investment Opportunities', timestamp: 'Today' },
@@ -201,7 +203,15 @@ export default function ChatbotPage() {
                           : 'bg-white border border-gray-200 text-gray-900'
                       }`}
                     >
-                      <p className="text-sm leading-relaxed">{msg.content}</p>
+                      {msg.role === 'assistant' ? (
+                        <div className="markdown-content">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {msg.content}
+                          </ReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="text-sm leading-relaxed">{msg.content}</p>
+                      )}
                     </div>
                     {msg.role === 'user' && (
                       <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center shrink-0">

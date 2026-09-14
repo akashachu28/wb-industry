@@ -71,9 +71,9 @@ export default function Recomendations() {
             </div>
 
             {/* Location 1: Kharagpur Industrial Area - Green */}
-            <div className="absolute left-[28%] top-[52%]">
+            <div className="absolute left-[14%] top-[50%]">
               <div className="flex items-center gap-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#16a34a] text-sm font-bold text-white shadow-lg">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#16a34a] text-sm font-bold text-white shadow-lg">
                   11
                 </div>
                 <div className="rounded-lg bg-[#16a34a] px-4 py-2 shadow-lg">
@@ -90,9 +90,9 @@ export default function Recomendations() {
             </div>
 
             {/* Location 2: Uluberia Industrial Park - Blue */}
-            <div className="absolute left-[35%] top-[68%]">
+            <div className="absolute left-[62%] top-[28%]">
               <div className="flex items-center gap-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2879e8] text-sm font-bold text-white shadow-lg">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#2879e8] text-sm font-bold text-white shadow-lg">
                   21
                 </div>
                 <div className="rounded-lg bg-[#2879e8] px-4 py-2 shadow-lg">
@@ -103,9 +103,9 @@ export default function Recomendations() {
             </div>
 
             {/* Location 3: Falta Special Economic Zone - Orange */}
-            <div className="absolute left-[28%] top-[82%]">
+            <div className="absolute left-[72%] top-[56%]">
               <div className="flex items-center gap-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f58220] text-sm font-bold text-white shadow-lg">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#f58220] text-sm font-bold text-white shadow-lg">
                   33
                 </div>
                 <div className="rounded-lg bg-[#f58220] px-4 py-2 shadow-lg">
