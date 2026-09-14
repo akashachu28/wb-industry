@@ -207,31 +207,31 @@ export default function ProjectDetailsPage() {
   return (
     <main className="flex-1 overflow-y-auto p-2">
       <div className="space-y-2">
-        {/* Back Button */}
-        <button
-          onClick={() => router.push('/all-projects')}
-          className="flex items-center gap-2 px-4 py-2 text-sm text-[#6b7280] hover:text-[#1a1f36] hover:bg-gray-50 rounded-lg transition-colors"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M19 12H5M12 19l-7-7 7-7" />
-          </svg>
-          Back to All Projects
-        </button>
-
         {/* Header Card */}
         <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
-          <div className="mb-6">
-            <div className="flex items-center gap-4 mb-2">
-              <h1 className="text-xl font-semibold text-[#1a1f36]">
-                Project {PROJECT_DATA.id}
-              </h1>
-              <span className="px-3 py-1 bg-red-500 text-white text-xs font-semibold rounded-full">
-                {PROJECT_DATA.status}
-              </span>
+          <div className="flex items-start gap-4 mb-6">
+            <button
+              onClick={() => router.push('/all-projects')}
+              className="w-11 h-11 rounded-xl bg-[#eaf6fd] flex items-center justify-center shrink-0 hover:bg-[#d5eefb] transition-colors"
+              aria-label="Back to all projects"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#29ABE2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <div className="flex-1">
+              <div className="flex items-center gap-4 mb-2">
+                <h1 className="text-xl font-semibold text-[#1a1f36]">
+                  Project {PROJECT_DATA.id}
+                </h1>
+                <span className="px-3 py-1 bg-red-500 text-white text-xs font-semibold rounded-full">
+                  {PROJECT_DATA.status}
+                </span>
+              </div>
+              <p className="text-sm text-[#6b7280]">
+                {PROJECT_DATA.name} | {PROJECT_DATA.location}
+              </p>
             </div>
-            <p className="text-sm text-[#6b7280]">
-              {PROJECT_DATA.name} | {PROJECT_DATA.location}
-            </p>
           </div>
 
           {/* Stats Cards */}

@@ -119,31 +119,18 @@ export default function AllProjectsPage() {
       <div className="space-y-2">
         {/* Header */}
         <div className="bg-white rounded-xl border border-[#e8eaef] p-7">
-          <div className="flex items-start gap-4 mb-6">
-            <button
-              onClick={() => router.push('/command-center')}
-              className="w-11 h-11 rounded-xl bg-[#eaf6fd] flex items-center justify-center shrink-0 hover:bg-[#d5eefb] transition-colors"
-              aria-label="Back to command center"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#29ABE2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <div className="flex-1">
-              <div className="flex items-center justify-between mb-2">
-                <h1 className="text-2xl font-semibold text-[#1a1f36]">All Projects</h1>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 px-4 py-2 bg-[#f8f9fb] rounded-lg">
-                    <span className="text-sm text-[#6b7280]">Total Projects:</span>
-                    <span className="text-sm font-semibold text-[#1a1f36]">{PROJECTS_DATA.length}</span>
-                  </div>
-                </div>
+          <div className="flex items-center justify-between mb-2">
+            <h1 className="text-2xl font-semibold text-[#1a1f36]">All Projects</h1>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 px-4 py-2 bg-[#f8f9fb] rounded-lg">
+                <span className="text-sm text-[#6b7280]">Total Projects:</span>
+                <span className="text-sm font-semibold text-[#1a1f36]">{PROJECTS_DATA.length}</span>
               </div>
-              <p className="text-sm text-[#6b7280]">
-                Monitor and track all investment projects across West Bengal
-              </p>
             </div>
           </div>
+          <p className="text-sm text-[#6b7280]">
+            Monitor and track all investment projects across West Bengal
+          </p>
         </div>
 
         {/* Stats Cards */}
@@ -276,78 +263,117 @@ export default function AllProjectsPage() {
 
                   {/* Risk Status */}
                   <div className="col-span-2">
-                    <div className="flex items-center gap-3">
-                      {/* Risk Badge */}
-                      <span className={`px-3 py-1 border rounded-full text-xs font-semibold ${getRiskBadgeColor(project.riskLevel)}`}>
-                        {project.riskLevel} Risk
-                      </span>
-                      
-                      {/* Risk Score Indicator */}
-                      <div className="flex items-center gap-1.5">
-                        <div className="relative w-8 h-8">
-                          <svg className="transform -rotate-90" width="32" height="32">
-                            <circle
-                              cx="16"
-                              cy="16"
-                              r="14"
-                              fill="none"
-                              stroke="#e5e7eb"
-                              strokeWidth="3"
-                            />
-                            <circle
-                              cx="16"
-                              cy="16"
-                              r="14"
-                              fill="none"
-                              stroke={
-                                project.riskLevel === 'High' ? '#ef4444' :
-                                project.riskLevel === 'Medium' ? '#f59e0b' :
-                                '#22c55e'
-                              }
-                              strokeWidth="3"
-                              strokeDasharray={`${(project.riskScore / 100) * 87.96} 87.96`}
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="text-[10px] font-bold text-[#1a1f36]">{project.riskScore}</span>
-                          </div>
+                    <div className="flex items-center gap-2">
+                      {/* Risk Score Indicator with enhanced design */}
+                      <div className="relative w-10 h-10 shrink-0">
+                        <svg className="transform -rotate-90" width="40" height="40">
+                          <circle
+                            cx="20"
+                            cy="20"
+                            r="16"
+                            fill="none"
+                            stroke={
+                              project.riskLevel === 'High' ? '#fee2e2' :
+                              project.riskLevel === 'Medium' ? '#fef3c7' :
+                              '#dcfce7'
+                            }
+                            strokeWidth="4"
+                          />
+                          <circle
+                            cx="20"
+                            cy="20"
+                            r="16"
+                            fill="none"
+                            stroke={
+                              project.riskLevel === 'High' ? '#ef4444' :
+                              project.riskLevel === 'Medium' ? '#f59e0b' :
+                              '#22c55e'
+                            }
+                            strokeWidth="4"
+                            strokeDasharray={`${(project.riskScore / 100) * 100.48} 100.48`}
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-xs font-bold text-[#1a1f36]">{project.riskScore}</span>
                         </div>
                       </div>
+                      
+                      <div className="flex-1 min-w-0">
+                        {/* Risk Badge with icon */}
+                        <div className="flex items-center gap-1.5 mb-1">
+                          {project.riskLevel === 'High' && (
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2">
+                              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                              <line x1="12" y1="9" x2="12" y2="13" />
+                              <line x1="12" y1="17" x2="12.01" y2="17" />
+                            </svg>
+                          )}
+                          {project.riskLevel === 'Medium' && (
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2">
+                              <circle cx="12" cy="12" r="10" />
+                              <line x1="12" y1="8" x2="12" y2="12" />
+                              <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>
+                          )}
+                          {project.riskLevel === 'Low' && (
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                              <path d="M5 13l4 4L19 7" />
+                            </svg>
+                          )}
+                          <span className={`text-xs font-semibold ${
+                            project.riskLevel === 'High' ? 'text-red-700' :
+                            project.riskLevel === 'Medium' ? 'text-yellow-700' :
+                            'text-green-700'
+                          }`}>
+                            {project.riskLevel} Risk
+                          </span>
+                        </div>
+                        
+                        {/* Delay Info with better styling */}
+                        {project.delayDays > 0 ? (
+                          <div className="flex items-center gap-1">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2">
+                              <circle cx="12" cy="12" r="10" />
+                              <path d="M12 6v6l4 2" />
+                            </svg>
+                            <span className="text-xs text-red-600 font-medium">
+                              {project.delayDays} days delayed
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2">
+                              <circle cx="12" cy="12" r="10" />
+                              <path d="M12 6v6l4 2" />
+                            </svg>
+                            <span className="text-xs text-green-600 font-medium">
+                              On schedule
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    
-                    {/* Delay Info */}
-                    {project.delayDays > 0 && (
-                      <div className="text-xs text-red-600 mt-1">
-                        {project.delayDays} days delayed
-                      </div>
-                    )}
-                    {project.delayDays === 0 && (
-                      <div className="text-xs text-green-600 mt-1">
-                        On schedule
-                      </div>
-                    )}
                   </div>
 
                   {/* Actions */}
                   <div className="col-span-1 flex justify-end">
                     <button
                       onClick={() => handleViewProject(project.id)}
-                      className="p-2 hover:bg-blue-100 rounded-lg transition-colors group"
-                      title="View Project Details"
+                      className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg transition-colors"
                     >
                       <svg
-                        width="20"
-                        height="20"
+                        width="16"
+                        height="16"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#6b7280"
+                        stroke="currentColor"
                         strokeWidth="2"
-                        className="group-hover:stroke-blue-600"
                       >
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                         <circle cx="12" cy="12" r="3" />
                       </svg>
+                      View
                     </button>
                   </div>
                 </div>
